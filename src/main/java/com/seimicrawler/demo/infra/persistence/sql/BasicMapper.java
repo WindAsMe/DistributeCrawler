@@ -13,5 +13,6 @@ import java.util.List;
  */
 @Mapper
 public interface BasicMapper {
+
     void insertBasicBatch(List<BasicModel> list);
 }

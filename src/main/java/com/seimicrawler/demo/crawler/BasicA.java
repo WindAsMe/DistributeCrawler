@@ -5,8 +5,15 @@ import cn.wanghaomiao.seimi.def.BaseSeimiCrawler;
 import cn.wanghaomiao.seimi.def.DefaultRedisQueue;
 import cn.wanghaomiao.seimi.struct.Request;
 import cn.wanghaomiao.seimi.struct.Response;
+import com.seimicrawler.demo.domain.BasicModel;
+import com.seimicrawler.demo.service.BasicService;
+import com.seimicrawler.demo.util.RedisPool;
 import org.seimicrawler.xpath.JXDocument;
+import redis.clients.jedis.Jedis;
 
+import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,6 +25,11 @@ import java.util.List;
 
 @Crawler(name = "basic_a",queue = DefaultRedisQueue.class,useUnrepeated = false)
 public class BasicA extends BaseSeimiCrawler {
+
+    @Resource
+    private BasicService basicService;
+
+    List<BasicModel> list = new ArrayList<>();
 
     @Override
     public String[] startUrls() {
@@ -34,6 +46,8 @@ public class BasicA extends BaseSeimiCrawler {
             for (Object s:urls){
                 push(Request.build(s.toString(), BasicA::getTitle));
             }
+            basicService.insertBasicBatch(list);
+            list = new ArrayList<>();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -45,6 +59,12 @@ public class BasicA extends BaseSeimiCrawler {
             System.out.println("url: " + response.getUrl() + " content: " + response.getContent().length() + " title: " + doc.sel("//h1[@class='postTitle']/a/text()|//a[@id='cb_post_title_url']/text()"));
             logger.info("url:{} {}", response.getUrl(), doc.sel("//h1[@class='postTitle']/a/text()|//a[@id='cb_post_title_url']/text()"));
             //do something
+            Jedis jedis = RedisPool.getJedis();
+            if (jedis != null && jedis.get(response.getRealUrl()) == null) {
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd tt:MM:ss");
+                list.add(new BasicModel(response.getRealUrl(), doc.sel("//h1[@class='postTitle']/a/text()|//a[@id='cb_post_title_url']/text()").toString(), response.getContent().length(), format.format(System.currentTimeMillis())));
+                jedis.set(response.getRealUrl(), "1");
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -5,8 +5,11 @@ import cn.wanghaomiao.seimi.def.BaseSeimiCrawler;
 import cn.wanghaomiao.seimi.def.DefaultRedisQueue;
 import cn.wanghaomiao.seimi.struct.Request;
 import cn.wanghaomiao.seimi.struct.Response;
+import com.seimicrawler.demo.service.BasicService;
 import org.seimicrawler.xpath.JXDocument;
+import redis.clients.jedis.Jedis;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -18,6 +21,9 @@ import java.util.List;
 
 @Crawler(name = "basic_b", queue = DefaultRedisQueue.class, useUnrepeated = false)
 public class BasicB extends BaseSeimiCrawler {
+
+    @Resource
+    private BasicService basicService;
 
     @Override
     public String[] startUrls() {
@@ -42,6 +48,7 @@ public class BasicB extends BaseSeimiCrawler {
         JXDocument doc = response.document();
         try {
             logger.info("url:{} {}", response.getUrl(), doc.sel("//h1[@class='postTitle']/a/text()|//a[@id='cb_post_title_url']/text()"));
+
             //do something
         } catch (Exception e) {
             e.printStackTrace();

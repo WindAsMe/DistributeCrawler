@@ -11,13 +11,13 @@ public class BasicModel {
     private int id;
     private String url;
     private String title;
-    private String content;
+    private int content;
     private String time;
 
     public BasicModel() {
     }
 
-    public BasicModel(String url, String title, String content, String time) {
+    public BasicModel(String url, String title, int content, String time) {
         this.url = url;
         this.title = title;
         this.content = content;
@@ -48,11 +48,11 @@ public class BasicModel {
         this.title = title;
     }
 
-    public String getContent() {
+    public int getContent() {
         return content;
     }
 
-    public void setContent(String content) {
+    public void setContent(int content) {
         this.content = content;
     }
 
