@@ -46,6 +46,7 @@ public class BasicA extends BaseSeimiCrawler {
             for (Object s:urls){
                 push(Request.build(s.toString(), BasicA::getTitle));
             }
+            System.out.println("list: " + list.toString());
             basicService.insertBasicBatch(list);
             list = new ArrayList<>();
         } catch (Exception e) {
@@ -56,12 +57,15 @@ public class BasicA extends BaseSeimiCrawler {
     public void getTitle(Response response){
         JXDocument doc = response.document();
         try {
-            System.out.println("url: " + response.getUrl() + " content: " + response.getContent().length() + " title: " + doc.sel("//h1[@class='postTitle']/a/text()|//a[@id='cb_post_title_url']/text()"));
             logger.info("url:{} {}", response.getUrl(), doc.sel("//h1[@class='postTitle']/a/text()|//a[@id='cb_post_title_url']/text()"));
             //do something
             Jedis jedis = RedisPool.getJedis();
+            if (jedis == null)
+                System.out.println("nullllllllllllllll");
+            System.out.println("next is list add function");
             if (jedis != null && jedis.get(response.getRealUrl()) == null) {
-                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd tt:MM:ss");
+                System.out.println("list add function");
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:MM:ss");
                 list.add(new BasicModel(response.getRealUrl(), doc.sel("//h1[@class='postTitle']/a/text()|//a[@id='cb_post_title_url']/text()").toString(), response.getContent().length(), format.format(System.currentTimeMillis())));
                 jedis.set(response.getRealUrl(), "1");
             }

@@ -20,6 +20,6 @@ public class BasicService {
     private BasicMapper basicMapper;
 
     public void insertBasicBatch(List<BasicModel> list) {
-        basicMapper.insertBasicBatch(list);
+        this.basicMapper.insertBasicBatch(list);
     }
 }
