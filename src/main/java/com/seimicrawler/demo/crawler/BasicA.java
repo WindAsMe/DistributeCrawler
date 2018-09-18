@@ -27,9 +27,7 @@ import java.util.List;
 public class BasicA extends BaseSeimiCrawler {
 
     @Resource
-    private BasicService basicService;
-
-    List<BasicModel> list = new ArrayList<>();
+    private BasicService service;
 
     @Override
     public String[] startUrls() {
@@ -43,12 +41,8 @@ public class BasicA extends BaseSeimiCrawler {
         try {
             List<Object> urls = doc.sel("//a[@class='titlelnk']/@href");
             logger.info("{}", urls.size());
-            for (Object s:urls){
+            for (Object s:urls)
                 push(Request.build(s.toString(), BasicA::getTitle));
-            }
-            System.out.println("list: " + list.toString());
-            basicService.insertBasicBatch(list);
-            list = new ArrayList<>();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -60,13 +54,9 @@ public class BasicA extends BaseSeimiCrawler {
             logger.info("url:{} {}", response.getUrl(), doc.sel("//h1[@class='postTitle']/a/text()|//a[@id='cb_post_title_url']/text()"));
             //do something
             Jedis jedis = RedisPool.getJedis();
-            if (jedis == null)
-                System.out.println("nullllllllllllllll");
-            System.out.println("next is list add function");
-            if (jedis != null && jedis.get(response.getRealUrl()) == null) {
-                System.out.println("list add function");
+            if (jedis != null && jedis.get(response.getRealUrl()) != null) {
                 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:MM:ss");
-                list.add(new BasicModel(response.getRealUrl(), doc.sel("//h1[@class='postTitle']/a/text()|//a[@id='cb_post_title_url']/text()").toString(), response.getContent().length(), format.format(System.currentTimeMillis())));
+                service.insertBasicBatch(new BasicModel(response.getRealUrl(), doc.sel("//h1[@class='postTitle']/a/text()|//a[@id='cb_post_title_url']/text()").toString(), response.getContent().length(), format.format(System.currentTimeMillis())));
                 jedis.set(response.getRealUrl(), "1");
             }
         } catch (Exception e) {

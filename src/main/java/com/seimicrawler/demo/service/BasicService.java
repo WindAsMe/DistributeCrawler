@@ -19,7 +19,8 @@ public class BasicService {
     @Resource
     private BasicMapper basicMapper;
 
-    public void insertBasicBatch(List<BasicModel> list) {
-        this.basicMapper.insertBasicBatch(list);
+    public void insertBasicBatch(BasicModel model) {
+        this.basicMapper.insertBasicBatch(model);
     }
+
 }

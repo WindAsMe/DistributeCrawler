@@ -38,11 +38,10 @@ public final class RedisPool {
 
     public synchronized static Jedis getJedis() {
         try {
-            if (jedisPool != null) {
+            if (jedisPool != null)
                 return jedisPool.getResource();
-            } else {
+            else
                 return null;
-            }
         } catch (Exception e) {
             e.printStackTrace();
             return null;

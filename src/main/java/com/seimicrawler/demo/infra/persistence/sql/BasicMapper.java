@@ -2,6 +2,7 @@ package com.seimicrawler.demo.infra.persistence.sql;
 
 import com.seimicrawler.demo.domain.BasicModel;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -14,5 +15,5 @@ import java.util.List;
 @Mapper
 public interface BasicMapper {
 
-    void insertBasicBatch(List<BasicModel> list);
+    void insertBasicBatch(@Param("model") BasicModel model);
 }

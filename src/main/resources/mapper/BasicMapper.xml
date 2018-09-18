@@ -3,18 +3,14 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!--Mapper名称 对应infra中mapper类名-->
 <mapper namespace="com.seimicrawler.demo.infra.persistence.sql.BasicMapper">
-    <insert id ="insertBasicBatch" parameterType="java.util.List" >
+    <insert id ="insertBasicBatch">
         INSERT INTO
         dis_crawler(url, title, content, "time")
-        values
-        <foreach collection ="list" item="basicModel" index= "index" separator =",">
-            (
-            #{basicModel.url},
-            #{basicModel.title},
-            #{basicModel.content},
-            #{basicModel.time},
-            )
-        </foreach >
+        values(
+        #{basicModel.url},
+        #{basicModel.title},
+        #{basicModel.content},
+        #{basicModel.time}
+        )
     </insert >
-
 </mapper>
