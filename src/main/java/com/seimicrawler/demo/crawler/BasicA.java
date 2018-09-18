@@ -9,11 +9,11 @@ import com.seimicrawler.demo.domain.BasicModel;
 import com.seimicrawler.demo.service.BasicService;
 import com.seimicrawler.demo.util.RedisPool;
 import org.seimicrawler.xpath.JXDocument;
+import org.springframework.web.bind.annotation.RestController;
 import redis.clients.jedis.Jedis;
 
 import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -54,10 +54,11 @@ public class BasicA extends BaseSeimiCrawler {
             logger.info("url:{} {}", response.getUrl(), doc.sel("//h1[@class='postTitle']/a/text()|//a[@id='cb_post_title_url']/text()"));
             //do something
             Jedis jedis = RedisPool.getJedis();
-            if (jedis != null && jedis.get(response.getRealUrl()) != null) {
+            if (jedis != null && jedis.get(response.getRealUrl()) == null) {
                 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:MM:ss");
                 service.insertBasicBatch(new BasicModel(response.getRealUrl(), doc.sel("//h1[@class='postTitle']/a/text()|//a[@id='cb_post_title_url']/text()").toString(), response.getContent().length(), format.format(System.currentTimeMillis())));
                 jedis.set(response.getRealUrl(), "1");
+                System.out.println("response.getRealUrl(): " + response.getRealUrl());
             }
         } catch (Exception e) {
             e.printStackTrace();

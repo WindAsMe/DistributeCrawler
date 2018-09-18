@@ -7,7 +7,7 @@
 
     <context:annotation-config />
     <bean id="mybatisDataSource" class="org.apache.commons.dbcp2.BasicDataSource">
-        <property name="driverClassName" value="DemoApplication"/>
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
         <property name="url" value="jdbc:mysql://localhost:3306/IRDB"/>
         <property name="username" value="root"/>
         <property name="password" value="change123"/>
@@ -20,7 +20,7 @@
         <property name="dataSource" ref="mybatisDataSource"/>
     </bean>
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="cn.wanghaomiao.dao.mybatis"/>
+        <property name="basePackage" value="com.seimicrawler.demo.infra.persistence"/>
         <property name="sqlSessionFactoryBeanName" value="seimiSqlSessionFactory"/>
     </bean>
 </beans>

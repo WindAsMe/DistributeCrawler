@@ -4,13 +4,16 @@
 <!--Mapper名称 对应infra中mapper类名-->
 <mapper namespace="com.seimicrawler.demo.infra.persistence.sql.BasicMapper">
     <insert id ="insertBasicBatch">
-        INSERT INTO
-        dis_crawler(url, title, content, "time")
-        values(
-        #{basicModel.url},
-        #{basicModel.title},
-        #{basicModel.content},
-        #{basicModel.time}
+        INSERT INTO dis_crawler(
+        url,
+        title,
+        content,
+        time
+        )VALUE(
+        #{model.url},
+        #{model.title},
+        #{model.content},
+        #{model.time}
         )
     </insert >
 </mapper>
