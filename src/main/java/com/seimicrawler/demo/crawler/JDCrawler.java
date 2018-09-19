@@ -98,7 +98,7 @@ public class JDCrawler extends BaseSeimiCrawler {
         StringBuilder builder = new StringBuilder();
         char[] helper = s.toCharArray();
         for (char c : helper) {
-            if (c >= '0' && c <= '9')
+            if (c >= '0' && c <= '9' || c == '.')
                 builder.append(c);
         }
         return builder.toString();

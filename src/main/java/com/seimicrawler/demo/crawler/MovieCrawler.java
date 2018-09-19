@@ -71,6 +71,7 @@ public class MovieCrawler extends BaseSeimiCrawler {
             for (int i = 0; i < min; i++) {
                 String base = "http://www.dytt8.net";
                 MovieModel model = new MovieModel(base + urls.get(i).toString(), titles.get(i).toString(), contexts.get(i).toString(), format.format(System.currentTimeMillis()));
+                System.out.println("url: " + base + urls.get(i) + " title: " + titles.get(i) + " context: " + contexts.get(i));
                 if (jedis.get(urls.get(i).toString()) == null) {
                     service.insertMovieModel(model);
                     jedis.set(urls.get(i).toString(), "1");
