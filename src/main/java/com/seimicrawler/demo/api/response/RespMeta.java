@@ -1,4 +1,4 @@
-package com.seimicrawler.demo.response;
+package com.seimicrawler.demo.api.response;
 
 /**
  * Author     : WindAsMe

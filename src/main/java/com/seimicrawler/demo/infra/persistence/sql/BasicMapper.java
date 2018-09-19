@@ -1,10 +1,8 @@
 package com.seimicrawler.demo.infra.persistence.sql;
 
-import com.seimicrawler.demo.domain.BasicModel;
+import com.seimicrawler.demo.domain.model.BasicModel;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-
-import java.util.List;
 
 /**
  * Author     : WindAsMe

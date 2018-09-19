@@ -1,4 +1,4 @@
-package com.seimicrawler.demo.util;
+package com.seimicrawler.demo.domain.util;
 
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.Jedis;

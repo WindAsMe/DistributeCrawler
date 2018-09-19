@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--Mapper名称 对应infra中mapper类名-->
+<mapper namespace="com.seimicrawler.demo.infra.persistence.sql.JDMapper">
+    <insert id ="insertJDModel">
+        INSERT INTO jd_crawler(
+        url,
+        title,
+        price,
+        time
+        )VALUE(
+        #{model.url},
+        #{model.title},
+        #{model.price},
+        #{model.time}
+        )
+    </insert >
+</mapper>

@@ -1,4 +1,4 @@
-package com.seimicrawler.demo.response;
+package com.seimicrawler.demo.api.response;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,26 +1,23 @@
-package com.seimicrawler.demo.domain;
+package com.seimicrawler.demo.domain.model;
 
 /**
  * Author     : WindAsMe
- * File       : BasicModel.java
- * Time       : Create on 18-9-17
- * Location   : ../Home/SeimiCrawler/BasicModel.java
+ * File       : JDModel.java
+ * Time       : Create on 18-9-19
+ * Location   : ../Home/SeimiCrawler/JDModel.java
  */
-public class BasicModel {
+public class JDModel {
 
     private int id;
     private String url;
     private String title;
-    private int content;
+    private String price;
     private String time;
 
-    public BasicModel() {
-    }
-
-    public BasicModel(String url, String title, int content, String time) {
+    public JDModel(String url, String title, String price, String time) {
         this.url = url;
         this.title = title;
-        this.content = content;
+        this.price = price;
         this.time = time;
     }
 
@@ -48,12 +45,12 @@ public class BasicModel {
         this.title = title;
     }
 
-    public int getContent() {
-        return content;
+    public String getPrice() {
+        return price;
     }
 
-    public void setContent(int content) {
-        this.content = content;
+    public void setPrice(String price) {
+        this.price = price;
     }
 
     public String getTime() {
@@ -66,11 +63,11 @@ public class BasicModel {
 
     @Override
     public String toString() {
-        return "BasicModel{" +
+        return "JDModel{" +
                 "id=" + id +
                 ", url='" + url + '\'' +
                 ", title='" + title + '\'' +
-                ", content='" + content + '\'' +
+                ", price='" + price + '\'' +
                 ", time='" + time + '\'' +
                 '}';
     }

@@ -5,9 +5,9 @@ import cn.wanghaomiao.seimi.def.BaseSeimiCrawler;
 import cn.wanghaomiao.seimi.def.DefaultRedisQueue;
 import cn.wanghaomiao.seimi.struct.Request;
 import cn.wanghaomiao.seimi.struct.Response;
-import com.seimicrawler.demo.domain.BasicModel;
+import com.seimicrawler.demo.domain.model.BasicModel;
 import com.seimicrawler.demo.service.BasicService;
-import com.seimicrawler.demo.util.RedisPool;
+import com.seimicrawler.demo.domain.util.RedisPool;
 import org.seimicrawler.xpath.JXDocument;
 import redis.clients.jedis.Jedis;
 

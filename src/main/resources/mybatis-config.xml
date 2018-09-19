@@ -23,5 +23,6 @@
 
     <mappers>
         <mapper resource="mapper/BasicMapper.xml"/>
+        <mapper resource="mapper/JDMapper.xml"/>
     </mappers>
 </configuration>

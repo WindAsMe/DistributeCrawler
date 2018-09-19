@@ -1,7 +1,5 @@
-package com.seimicrawler.demo.resource;
+package com.seimicrawler.demo.api.resource;
 
-import com.seimicrawler.demo.response.Response;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
