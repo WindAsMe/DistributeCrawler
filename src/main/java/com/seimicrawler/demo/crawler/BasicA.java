@@ -14,6 +14,7 @@ import redis.clients.jedis.Jedis;
 
 import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -31,7 +32,14 @@ public class BasicA extends BaseSeimiCrawler {
 
     @Override
     public String[] startUrls() {
-        return new String[]{"https://s.taobao.com/search?spm=a217h.9580640.831011.12.376a25aax6nlmn&q=iphoneX&js=1&stats_click=search_radio_all%3A1&initiative_id=staobaoz_20171213&ie=utf8&app=detailproduct&through=1"};
+        return new String[]{"https://search.jd.com/Search?keyword=iphonex&enc=utf-8&wq=iphonex&pvid=841062b25c2348edb05b90b5f2aaa22f"};
+    }
+
+    public String url() {
+        StringBuilder builder = new StringBuilder();
+        for (String s : startUrls())
+            builder.append(s);
+        return builder.toString();
     }
 
     @Override
@@ -39,27 +47,14 @@ public class BasicA extends BaseSeimiCrawler {
 
         JXDocument doc = response.document();
         try {
-            List<Object> urls = doc.sel("//div[@id=\"item.g-clearfix\"]");
-            logger.info("{}", urls.size());
-            System.out.println("urls: " + urls.toString());
-//            for (Object s:urls)
-//                push(Request.build(s.toString(), BasicA::getTitle));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void getTitle(Response response){
-        JXDocument doc = response.document();
-        try {
-            logger.info("url:{} {}", response.getUrl(), doc.sel("//a/@p/text()|//a/@span/text()"));
-            //do something
-            Jedis jedis = RedisPool.getJedis();
-            if (jedis != null && jedis.get(response.getRealUrl()) == null) {
-                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:MM:ss");
-                service.insertBasicBatch(new BasicModel(response.getRealUrl(), doc.sel("/href").toString(), response.getContent().length(), format.format(System.currentTimeMillis())));
-                jedis.set(response.getRealUrl(), "1");
+            List<Object> urls = doc.sel("//li[@class='gl-item']/div[@class='gl-i-wrap']/div[@class='p-img']/a/@href");
+            List<Object> prices = doc.sel("//li[@class='gl-item']/div[@class='gl-i-wrap']/div[@class='p-price']/strong");
+            List<Object> titles = doc.sel("//li[@class='gl-item']/div[@class='gl-i-wrap']/div[@class='p-name p-name-type-2']/a/@title");
+            logger.info("{} {} {}", urls.size(), prices.size(), titles.size());
+            for (int i = 0; i < urls.size(); i++) {
+                System.out.println("url: " + url() + urls.get(i) + " price: " + prices.get(i).toString().substring(prices.get(i).toString().length() - 20, prices.get(i).toString().length() - 13) + " title: " + titles.get(i));
             }
+                //push(Request.build(url() + s.toString(), BasicA::getTitle));
         } catch (Exception e) {
             e.printStackTrace();
         }
