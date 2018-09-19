@@ -10,12 +10,14 @@ public class JDModel {
 
     private int id;
     private String url;
+    private int page;
     private String title;
     private String price;
     private String time;
 
-    public JDModel(String url, String title, String price, String time) {
+    public JDModel(String url, int page, String title, String price, String time) {
         this.url = url;
+        this.page = page;
         this.title = title;
         this.price = price;
         this.time = time;
@@ -35,6 +37,14 @@ public class JDModel {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public int getPage() {
+        return page;
+    }
+
+    public void setPage(int page) {
+        this.page = page;
     }
 
     public String getTitle() {

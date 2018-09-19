@@ -6,11 +6,13 @@
     <insert id ="insertJDModel">
         INSERT INTO jd_crawler(
         url,
+        page,
         title,
         price,
         time
         )VALUE(
         #{model.url},
+        #{model.page},
         #{model.title},
         #{model.price},
         #{model.time}
