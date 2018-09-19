@@ -22,9 +22,10 @@ import java.util.List;
  * Location   : ../Home/SeimiCrawler/Basic.java
  */
 
-@Crawler(name = "basic_a", queue = DefaultRedisQueue.class, useUnrepeated = false)
-public class BasicA extends BaseSeimiCrawler {
+@Crawler(name = "JDCrawler", queue = DefaultRedisQueue.class, useUnrepeated = false)
+public class JDCrawler extends BaseSeimiCrawler {
 
+    private String base = "https://search.jd.com";
     private int page = 1;
 
     @Resource
@@ -34,17 +35,11 @@ public class BasicA extends BaseSeimiCrawler {
     public String[] startUrls() {
 
         return new String[]{"https://search.jd.com/Search?keyword=iphonex&enc=utf-8&qrst=1&rt=1&stop=1&vt=2&bs=1&wq=iphonex&ev=exbrand_Apple%5E&page=1&s=1&click=0"};
-        //https://search.jd.com/Search?keyword=iphonex&enc=utf-8&qrst=1&rt=1&stop=1&vt=2&bs=1&wq=iphonex&ev=exbrand_Apple%5E&page=1&s=1&click=0
-        //https://search.jd.com/Search?keyword=iphonex&enc=utf-8&qrst=1&rt=1&stop=1&vt=2&bs=1&wq=iphonex&ev=exbrand_Apple%5E&page=3&s=63&click=0
-        //https://search.jd.com/Search?keyword=iphonex&enc=utf-8&qrst=1&rt=1&stop=1&vt=2&bs=1&wq=iphonex&ev=exbrand_Apple%5E&page=5&s=121&click=0
-        //https://search.jd.com/Search?keyword=iphonex&enc=utf-8&qrst=1&rt=1&stop=1&vt=2&bs=1&wq=iphonex&ev=exbrand_Apple%5E&page=7&s=181&click=0
-    }
-
-    private String url() {
-        StringBuilder builder = new StringBuilder();
-        for (String s : startUrls())
-            builder.append(s);
-        return builder.toString();
+        // https://search.jd.com/Search?keyword=iphonex&enc=utf-8&qrst=1&rt=1&stop=1&vt=2&bs=1&wq=iphonex&ev=exbrand_Apple%5E&page=1&s=1&click=0
+        // https://search.jd.com/Search?keyword=iphonex&enc=utf-8&qrst=1&rt=1&stop=1&vt=2&bs=1&wq=iphonex&ev=exbrand_Apple%5E&page=3&s=63&click=0
+        // https://search.jd.com/Search?keyword=iphonex&enc=utf-8&qrst=1&rt=1&stop=1&vt=2&bs=1&wq=iphonex&ev=exbrand_Apple%5E&page=5&s=121&click=0
+        // https://search.jd.com/Search?keyword=iphonex&enc=utf-8&qrst=1&rt=1&stop=1&vt=2&bs=1&wq=iphonex&ev=exbrand_Apple%5E&page=7&s=181&click=0
+        // .....
     }
 
     @Override
@@ -83,11 +78,12 @@ public class BasicA extends BaseSeimiCrawler {
                 return;
             for (int i = 0; i < min; i++) {
                 int len = prices.get(i).toString().length();
-                String price = prices.get(i).toString().substring(len - 20, len - 13);
-                System.out.println("url: " + url() + urls.get(i) + " price: " + price + " title: " + titles.get(i));
+                String price = getIntegerValue(prices.get(i).toString().substring(len - 20, len - 13));
+                System.out.println("url: " + base + urls.get(i) + " price: " + price + " title: " + titles.get(i));
                 // Save and mark
+                // Connection url
                 if (jedis.get(urls.get(i).toString()) == null) {
-                    service.insertJDModel(new JDModel(url() + urls.get(i).toString(), page, titles.get(i).toString(), price, format.format(System.currentTimeMillis())));
+                    service.insertJDModel(new JDModel(base + urls.get(i).toString(), page, titles.get(i).toString(), price, format.format(System.currentTimeMillis())));
                     jedis.set(urls.get(i).toString(), "1");
                 }
             }
@@ -95,5 +91,16 @@ public class BasicA extends BaseSeimiCrawler {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    // GET the number in s
+    private String getIntegerValue(String s) {
+        StringBuilder builder = new StringBuilder();
+        char[] helper = s.toCharArray();
+        for (char c : helper) {
+            if (c >= '0' && c <= '9')
+                builder.append(c);
+        }
+        return builder.toString();
     }
 }
