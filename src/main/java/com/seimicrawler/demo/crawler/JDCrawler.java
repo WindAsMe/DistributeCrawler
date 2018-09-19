@@ -25,7 +25,6 @@ import java.util.List;
 @Crawler(name = "JDCrawler", queue = DefaultRedisQueue.class, useUnrepeated = false)
 public class JDCrawler extends BaseSeimiCrawler {
 
-    private String base = "https://search.jd.com";
     private int page = 1;
 
     @Resource
@@ -48,11 +47,11 @@ public class JDCrawler extends BaseSeimiCrawler {
             String pre = "https://search.jd.com/Search?keyword=iphonex&enc=utf-8&qrst=1&rt=1&stop=1&vt=2&bs=1&wq=iphonex&ev=exbrand_Apple%5E&page=";
             String s = "&s=";
             String ord = "&click=0";
-            int page = 1;
+            int p = 1;
             int commodity = 1;
             // https://search.jd.com/Search?keyword=iphonex&enc=utf-8&qrst=1&rt=1&stop=1&vt=2&bs=1&wq=iphonex&ev=exbrand_Apple%5E&page=61&s=1801&click=0
-            for (; page <= 61; page += 2) {
-                String url = pre + page + s + commodity + ord;
+            for (; p <= 61; p += 2) {
+                String url = pre + p + s + commodity + ord;
                 Request request = Request.build(url, "getCommodity");
                 push(request);
                 commodity += 60;
@@ -79,6 +78,7 @@ public class JDCrawler extends BaseSeimiCrawler {
             for (int i = 0; i < min; i++) {
                 int len = prices.get(i).toString().length();
                 String price = getIntegerValue(prices.get(i).toString().substring(len - 20, len - 13));
+                String base = "https://search.jd.com";
                 System.out.println("url: " + base + urls.get(i) + " price: " + price + " title: " + titles.get(i));
                 // Save and mark
                 // Connection url

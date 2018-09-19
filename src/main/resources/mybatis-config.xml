@@ -24,5 +24,6 @@
     <mappers>
         <mapper resource="mapper/BasicMapper.xml"/>
         <mapper resource="mapper/JDMapper.xml"/>
+        <mapper resource="mapper/MovieMapper.xml"/>
     </mappers>
 </configuration>
