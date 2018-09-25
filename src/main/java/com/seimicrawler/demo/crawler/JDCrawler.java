@@ -14,6 +14,7 @@ import redis.clients.jedis.Jedis;
 import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Stack;
 
 /**
  * Author     : WindAsMe
@@ -30,9 +31,20 @@ public class JDCrawler extends BaseSeimiCrawler {
     @Resource
     private JDService service;
 
+    private Stack<String> stack = new Stack<>();
+
     @Override
     public String[] startUrls() {
-
+        String pre = "https://search.jd.com/Search?keyword=iphonex&enc=utf-8&qrst=1&rt=1&stop=1&vt=2&bs=1&wq=iphonex&ev=exbrand_Apple%5E&page=";
+        String s = "&s=";
+        String ord = "&click=0";
+        int p = 1;
+        int commodity = 1;
+        while (p <= 61) {
+            stack.push(pre + p + s + commodity + ord);
+            p += 2;
+            commodity += 60;
+        }
         return new String[]{"https://search.jd.com/Search?keyword=iphonex&enc=utf-8&qrst=1&rt=1&stop=1&vt=2&bs=1&wq=iphonex&ev=exbrand_Apple%5E&page=1&s=1&click=0"};
         // https://search.jd.com/Search?keyword=iphonex&enc=utf-8&qrst=1&rt=1&stop=1&vt=2&bs=1&wq=iphonex&ev=exbrand_Apple%5E&page=1&s=1&click=0
         // https://search.jd.com/Search?keyword=iphonex&enc=utf-8&qrst=1&rt=1&stop=1&vt=2&bs=1&wq=iphonex&ev=exbrand_Apple%5E&page=3&s=63&click=0
@@ -44,17 +56,12 @@ public class JDCrawler extends BaseSeimiCrawler {
     @Override
     public void start(Response response) {
         try {
-            String pre = "https://search.jd.com/Search?keyword=iphonex&enc=utf-8&qrst=1&rt=1&stop=1&vt=2&bs=1&wq=iphonex&ev=exbrand_Apple%5E&page=";
-            String s = "&s=";
-            String ord = "&click=0";
-            int p = 1;
-            int commodity = 1;
+
             // https://search.jd.com/Search?keyword=iphonex&enc=utf-8&qrst=1&rt=1&stop=1&vt=2&bs=1&wq=iphonex&ev=exbrand_Apple%5E&page=61&s=1801&click=0
-            for (; p <= 61; p += 2) {
-                String url = pre + p + s + commodity + ord;
+            while (stack != null) {
+                String url = stack.pop();
                 Request request = Request.build(url, "getCommodity");
                 push(request);
-                commodity += 60;
             }
         } catch (Exception e) {
             e.printStackTrace();
