@@ -14,6 +14,7 @@ import redis.clients.jedis.Jedis;
 import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Stack;
 
 /**
  * Author     : WindAsMe
@@ -27,9 +28,17 @@ public class MovieCrawler extends BaseSeimiCrawler {
     @Resource
     private MovieService service;
 
+    private Stack<String> stack = new Stack<>();
+
     @Override
     public String[] startUrls() {
-
+        String pre = "http://www.dytt8.net/html/dongman/list_16_";
+        int page = 1;
+        String ord = ".html";
+        while (page <= 7) {
+            stack.add(pre + page + ord);
+            page++;
+        }
         return new String[]{"http://www.dytt8.net/html/dongman/list_16_1.html"};
         // http://www.dytt8.net/html/dongman/list_16_1.html
         // http://www.dytt8.net/html/dongman/list_16_2.html
@@ -41,11 +50,8 @@ public class MovieCrawler extends BaseSeimiCrawler {
     @Override
     public void start(Response response) {
         try {
-            String pre = "http://www.dytt8.net/html/dongman/list_16_";
-            int page = 1;
-            String ord = ".html";
-            for (;page <= 7; page++) {
-                String url = pre + page + ord;
+            while (stack != null) {
+                String url = stack.pop();
                 Request request = Request.build(url, "getAnimation");
                 push(request);
             }
