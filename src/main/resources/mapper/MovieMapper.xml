@@ -16,4 +16,10 @@
         #{model.time}
         )
     </insert >
+
+    <select id="selectMovieModelAll">
+        SELECT *
+        FROM
+        movie_crawler
+    </select>
 </mapper>

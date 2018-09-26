@@ -4,6 +4,8 @@ import com.seimicrawler.demo.domain.model.JDModel;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 /**
  * Author     : WindAsMe
  * File       : JDMapper.java
@@ -14,4 +16,6 @@ import org.apache.ibatis.annotations.Param;
 public interface JDMapper {
 
     void insertJDModel(@Param("model")JDModel model);
+
+    List<JDModel> selectJDModelAll();
 }

@@ -5,6 +5,7 @@ import com.seimicrawler.demo.infra.persistence.sql.JDMapper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * Author     : WindAsMe
@@ -20,5 +21,9 @@ public class JDService {
 
     public void insertJDModel(JDModel model) {
         this.mapper.insertJDModel(model);
+    }
+
+    public List<JDModel> selectJDModelAll() {
+        return this.selectJDModelAll();
     }
 }

@@ -4,6 +4,8 @@ import com.seimicrawler.demo.domain.model.MovieModel;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 /**
  * Author     : WindAsMe
  * File       : MovieMapper.java
@@ -14,4 +16,6 @@ import org.apache.ibatis.annotations.Param;
 public interface MovieMapper {
 
     void insertMovieModel(@Param("model") MovieModel model);
+
+    List<MovieModel> selectMovieModelAll();
 }

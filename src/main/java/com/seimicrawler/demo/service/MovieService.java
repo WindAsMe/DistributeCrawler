@@ -5,6 +5,7 @@ import com.seimicrawler.demo.infra.persistence.sql.MovieMapper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * Author     : WindAsMe
@@ -20,5 +21,9 @@ public class MovieService {
 
     public void insertMovieModel(MovieModel model) {
         this.mapper.insertMovieModel(model);
+    }
+
+    public List<MovieModel> selectMovieModelAll() {
+        return this.mapper.selectMovieModelAll();
     }
 }

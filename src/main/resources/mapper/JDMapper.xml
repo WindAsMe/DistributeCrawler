@@ -18,4 +18,10 @@
         #{model.time}
         )
     </insert >
+
+    <select id="selectJDModelAll">
+        SELECT *
+        FROM
+        jd_crawler
+    </select>
 </mapper>
